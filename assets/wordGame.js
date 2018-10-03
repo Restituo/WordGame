@@ -1,97 +1,103 @@
 var nameArray =[ 
     {
-        name:"EEVEE",
-        image:""
+        name:"MUSHROOM",
+        image:"assets/Pictures/mushroom.jpeg"
     }, 
     {
-        name:"VAPOREON",
-        image:""
+        name:"MUSHMOM",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     { 
-        name:"JOLTEON",
-        image:""
+        name:"MUSHDAD",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     { 
-        name:"FLAREON",
-        image:""
+        name:"BALROG",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     {
-        name:"ESPEON",
-        image:""
+        name:"GREEN MUSHROOM",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     {
-        name:"UMBREON",
-        image:""
+        name:"HORNY MUSHROOM",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     {
-        name:"GLACEON",
-        image:""
+        name:"PIG",
+        image:"assets/Pictures/mushroom.jpeg"
     },
     {
-        name:"LEAFEON",
-        image:""
+        name:"RIBBON PIG",
+        image:"assets/Pictures/mushroom.jpeg"
     }, 
     {
-        name:"SYLVEON",
-        image:""
+        name:"MANO",
+        image:"assets/Pictures/mushroom.jpeg"
     },
 ];
 
 var win=0;
 var lose=0;
 var guessName = [];
-var guessLeft = 0;
-var totalGuess = 9;
+var guessLeft=9;
 var compChoice;
 var userGuess = [];
 var gameEND = false;
-
-document.onkeyup = function(event){
-    if (gameEND){
-        startGame();
-        gameEND = false;
-    }
-    else{
-        if(event.keyCode >= 65 && event.keyCode <= 90) {
-            keySound.play();
-            checkGuess(event.key.toUpperCase());
-            refreshScreen();
-            checkWin();
-            checkLoss();
-        }
-    }
-}
+var keySound = new Audio('./assets/mvm_money_pickup.wav');
+var monsterName = [];
+var monsterPicture;
+var bgm;
 
 function startGame(){
-    guessLeft = totalGuess;
-
+    guessLeft = 9;
+   
     compChoice = Math.floor(Math.random() * (nameArray.length));
 
     userGuess = [];
     guessName= [];
 
-    var pokeName = nameArray[compChoice].name;
-    var pokePic = nameArray[compChoice].image;
+    monsterName = nameArray[compChoice].name;
+    monsterPicture = nameArray[compChoice].image;
 
-    for(i=0; i<pokeName.length(); i++){
-        guessName.push("_");
+    /*document.getElementById("monPic").src = "assets/Pictures/"+compChoice+".jpeg";*/
+
+    for(i=0; i<monsterName.length; i++){
+        if(monsterName[i]==" "){
+            guessName.push(" ");
+        }
+        else{
+            guessName.push("_");
+        }
     }
-
+    
     refreshScreen();
+
 }
 
 function refreshScreen(){
-    
+    document.getElementById("chanceLeft").innerText= guessLeft;
+    document.getElementById("winCount").innerText= win;
+    document.getElementById("loseCount").innerText= lose;
+    /*document.getElementById("alreadyGuessed").innerText = userGuess;*/
+    console.log(monsterPicture);
+    document.getElementById("monPic").src = monsterPicture;
+   
+
+    var nameWord = "";
+    for (var i = 0; i < guessName.length; i++) {
+        nameWord += guessName[i];
+    }
+    document.getElementById("currentWord").innerText= nameWord;
 }
 
-function checkGuess(letter){
+function getGuess(letter){
     if (guessLeft > 0){
-        updateInput(letter);
-        compareWord(letter);
+        checkInput(letter); 
     }
 }
 
-function updateInput(letter){
+function checkInput(letter){
     if (guessLeft > 0) {
         if (userGuess.indexOf(letter) === -1) {
             userGuess.push(letter);
@@ -102,19 +108,52 @@ function updateInput(letter){
 
 function compareWord(letter){
     var position = [];
-
-    for (i=0; i<pokeName.length();i++){
-        if(pokeName[i]===letter){
+    
+    for (i=0; i<monsterName.length;i++){
+        if(monsterName[i]===letter){
             position.push(i);
         }
     }
 
-    if (position.length() = 0){
+    if (position.length <= 0){
         guessLeft--;
     }
     else{
-        for (i=0;i<position.length();i++){
+        for (i=0;i<position.length;i++){
             guessName[position[i]]= letter;
+        }
+    }
+}
+
+function checkWin(){
+    if (guessName.indexOf("_") === -1){
+        win++;
+        gameEND=true;
+        
+    }
+}
+
+function checkLoss(){  
+    if (guessLeft<=0){
+        lose++;
+        gameEND=true;
+       
+    }
+}
+
+document.onkeydown = function(event){
+    if (gameEND){
+        startGame();
+        gameEND = false;
+        
+    }
+    else{
+        if((event.keyCode >= 65 && event.keyCode <= 90)/*^(event.keyCode==32)*/) {
+            keySound.play();
+            getGuess(event.key.toUpperCase());
+            refreshScreen();
+            checkWin();
+            checkLoss();
         }
     }
 }
