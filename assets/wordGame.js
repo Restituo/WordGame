@@ -1,40 +1,44 @@
 var nameArray =[ 
     {
-        name:"MUSHROOM",
-        image:"assets/Pictures/mushroom.jpeg"
+        name:"ORANGE MUSHROOM",
+        image:"assets/Pictures/orange_mushroom.png"
     }, 
     {
         name:"MUSHMOM",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/mushmom.jpeg"
     },
     { 
-        name:"MUSHDAD",
-        image:"assets/Pictures/mushroom.jpeg"
+        name:"BLUE MUSHDAD",
+        image:"assets/Pictures/blue_mushdad.png"
     },
     { 
-        name:"BALROG",
-        image:"assets/Pictures/mushroom.jpeg"
+        name:"CRIMSON BALROG",
+        image:"assets/Pictures/crimson_balrog.png"
     },
     {
         name:"GREEN MUSHROOM",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/green_mushroom.png"
     },
     {
         name:"HORNY MUSHROOM",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/horny_mushroom.png"
     },
     {
         name:"PIG",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/pig.png"
     },
     {
         name:"RIBBON PIG",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/ribbon_pig.png"
     }, 
     {
         name:"MANO",
-        image:"assets/Pictures/mushroom.jpeg"
+        image:"assets/Pictures/mano.png"
     },
+    {
+        name:"SLIME",
+        image:"assets/Pictures/slime.png"
+    }
 ];
 
 var win=0;
@@ -47,11 +51,28 @@ var gameEND = false;
 var keySound = new Audio('./assets/mvm_money_pickup.wav');
 var monsterName = [];
 var monsterPicture;
-var bgm;
+
+document.onkeydown = function(event){
+    if (gameEND){
+        startGame();
+        gameEND = false;
+        
+    }
+    else{
+        if((event.keyCode >= 65 && event.keyCode <= 90)/*^(event.keyCode==32)*/) {
+            keySound.play();
+            getGuess(event.key.toUpperCase());
+            refreshScreen();
+            checkWin();
+            checkLoss();
+        }
+    }
+}
+
 
 function startGame(){
     guessLeft = 9;
-   
+    
     compChoice = Math.floor(Math.random() * (nameArray.length));
 
     userGuess = [];
@@ -70,17 +91,15 @@ function startGame(){
             guessName.push("_");
         }
     }
-    
     refreshScreen();
 
 }
-
+/*updates screen after every guess*/
 function refreshScreen(){
     document.getElementById("chanceLeft").innerText= guessLeft;
     document.getElementById("winCount").innerText= win;
     document.getElementById("loseCount").innerText= lose;
-    /*document.getElementById("alreadyGuessed").innerText = userGuess;*/
-    console.log(monsterPicture);
+    document.getElementById("alreadyGuessed").innerText = userGuess;
     document.getElementById("monPic").src = monsterPicture;
    
 
@@ -90,13 +109,13 @@ function refreshScreen(){
     }
     document.getElementById("currentWord").innerText= nameWord;
 }
-
+/*checks if the user still have chances to continue the round*/
 function getGuess(letter){
     if (guessLeft > 0){
         checkInput(letter); 
     }
 }
-
+/*Makes sure that the user does not make the same input multiple times*/
 function checkInput(letter){
     if (guessLeft > 0) {
         if (userGuess.indexOf(letter) === -1) {
@@ -105,7 +124,7 @@ function checkInput(letter){
         }
     }
 }
-
+/*Takes user input and compares it to the word that the user is guessing*/
 function compareWord(letter){
     var position = [];
     
@@ -124,7 +143,7 @@ function compareWord(letter){
         }
     }
 }
-
+/*Increase Win Count*/
 function checkWin(){
     if (guessName.indexOf("_") === -1){
         win++;
@@ -132,7 +151,7 @@ function checkWin(){
         
     }
 }
-
+/*Increase Loss Count*/
 function checkLoss(){  
     if (guessLeft<=0){
         lose++;
@@ -140,20 +159,15 @@ function checkLoss(){
        
     }
 }
-
-document.onkeydown = function(event){
-    if (gameEND){
-        startGame();
-        gameEND = false;
-        
-    }
-    else{
-        if((event.keyCode >= 65 && event.keyCode <= 90)/*^(event.keyCode==32)*/) {
-            keySound.play();
-            getGuess(event.key.toUpperCase());
-            refreshScreen();
-            checkWin();
-            checkLoss();
-        }
-    }
+/*plays bgm */
+function playBGM(){
+    var bgm = new Audio('./assets/Ellinia.mp3');
+    bgm.play();
+}
+/*plays bgm when page loads*/
+window.onload = function() {
+    var theBGM = new Audio('./assets/Ellinia.mp3');
+    
+    theBGM.play();
+    theBGM.loop=true;
 }
