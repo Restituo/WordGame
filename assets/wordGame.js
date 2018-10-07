@@ -48,7 +48,7 @@ var guessLeft=9;
 var compChoice;
 var userGuess = [];
 var gameEND = false;
-var keySound = new Audio('./assets/mvm_money_pickup.wav');
+/**var keySound = new Audio('./assets/mvm_money_pickup.wav');**/
 var monsterName = [];
 var monsterPicture;
 
@@ -60,8 +60,8 @@ document.onkeydown = function(event){
     }
     else{
         if((event.keyCode >= 65 && event.keyCode <= 90)/*^(event.keyCode==32)*/) {
-            keySound.play();
-            getGuess(event.key.toUpperCase());
+            playKeySound();
+            checkInput(event.key.toUpperCase());
             refreshScreen();
             checkWin();
             checkLoss();
@@ -69,7 +69,15 @@ document.onkeydown = function(event){
     }
 }
 
+/*Everykey press makes a sound(NO DELAY BETWEEN EACH INPUT)*/
 
+function playKeySound(){
+    var keySound = new Audio('./assets/mvm_money_pickup.wav');
+    keySound.play();
+}
+
+
+/*starts the game*/
 function startGame(){
     guessLeft = 9;
     
@@ -94,7 +102,7 @@ function startGame(){
     refreshScreen();
 
 }
-/*updates screen after every guess*/
+/*updates screen after every guess or result*/
 function refreshScreen(){
     document.getElementById("chanceLeft").innerText= guessLeft;
     document.getElementById("winCount").innerText= win;
@@ -109,12 +117,7 @@ function refreshScreen(){
     }
     document.getElementById("currentWord").innerText= nameWord;
 }
-/*checks if the user still have chances to continue the round*/
-function getGuess(letter){
-    if (guessLeft > 0){
-        checkInput(letter); 
-    }
-}
+
 /*Makes sure that the user does not make the same input multiple times*/
 function checkInput(letter){
     if (guessLeft > 0) {
@@ -159,12 +162,12 @@ function checkLoss(){
        
     }
 }
-/*plays bgm */
+/*plays bgm NOT IN USE FOR THIS HOMEWORK*/
 function playBGM(){
     var bgm = new Audio('./assets/Ellinia.mp3');
     bgm.play();
 }
-/*plays bgm when page loads*/
+/*plays bgm when page loads DONT KNOW IF iframe uses this function or not*/
 window.onload = function() {
     var theBGM = new Audio('./assets/Ellinia.mp3');
     

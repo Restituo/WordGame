@@ -1,0 +1,46 @@
+#Title{
+   background-image: url("../assets/Pictures/Logo.png");
+    background-size:  99% 99%;
+    height:360px;
+    width: 760px;
+    position: relative;
+    background-repeat: none;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0 none;
+}
+
+body {
+    background-image: url("../assets/Pictures/background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    height: 1080px;
+}
+
+#monPic{
+    height: 240px;
+    width: 240px;
+}
+
+h2{
+    font-size: 48px;
+    text-align:center;
+}
+
+h3,
+#winCount,
+#loseCount,
+#chanceLeft,
+#alreadyGuessed{
+    font-size: 36px;
+    text-align: center;
+
+}
+
+#currentWord{
+    letter-spacing: 5px;
+    font-size: 64px;
+    text-align: center;
+}
